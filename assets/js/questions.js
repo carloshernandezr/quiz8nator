@@ -28,8 +28,7 @@ var questions = [
 ];
 
 
- 
-
+ //vars
 var startbutton = document.querySelector("#startbtn");
 var iTemp=0;
 var numQuest=0;//numer of question 
