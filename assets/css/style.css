@@ -1,0 +1,23 @@
+
+.myfooter{
+
+  background-color:    black !important;
+ 
+  color: #ffffff;
+
+
+}
+
+
+#textnav{
+  color: aliceblue;
+
+}
+
+
+.jumbotron {
+    background-image: url("/assets/image/mainclock.jpg");
+    background-size: cover;
+  }
+  
+
