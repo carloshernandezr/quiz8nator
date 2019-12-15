@@ -31,24 +31,36 @@ var questions = [
 
 
     }
-   
-    
-
-
-    
+          
   ];
 
 
  
 
 var startbutton = document.querySelector("#startbtn");
+var iTemp=0;
+var numQuest=0;//numer of question 
 
  
 startbutton.addEventListener("click", function(event) {
   event.preventDefault();
+  numQuest=questions.length;
 
-  var titleQ = questions[2].title;
- // console.log(questions.length.choices);
+  //if-main
+   if (iTemp<numQuest) {
+
+
+
+
+
+
+
+     
+   }// if main
+
+  /*     */
+
+  var titleQ = questions[0].title; 
 
   var questiontext = document.createElement("h2");
       questiontext.textContent = titleQ;
@@ -56,10 +68,10 @@ startbutton.addEventListener("click", function(event) {
       questiontext.setAttribute("id", "h2question"); 
       document.getElementById("h2question").classList.add("mb-4" );
 
+      //create question and answer 
+      for (let i = 0; i < questions[0].choices.length; i++) {
 
-      for (let i = 0; i < questions[4].choices.length; i++) {
-
-        var choicesarr = questions[4].choices[i];
+        var choicesarr = questions[0].choices[i];
 
         var answertext = document.createElement("button");
         answertext.textContent = choicesarr;
@@ -74,21 +86,18 @@ startbutton.addEventListener("click", function(event) {
  
 
 
+     /* */
 
-    var btnanswer = document.querySelector("button");
- 
 
- 
 
-   Array.prototype.forEach.call(btnanswer, function(el) {
-    el.addEventListener('click', function (event) {
+    var btnanswer = document.querySelectorAll("button"); 
 
-//document.getElementById(this).value;
-
-      alert("g")
- 
-     });
-  });
+    Array.prototype.forEach.call(btnanswer, function(el) {
+      el.addEventListener('click', function (event) {
+      //document.getElementById(this).value;
+        alert("g");
+      });
+    });
 
 
 
