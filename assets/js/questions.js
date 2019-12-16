@@ -119,21 +119,56 @@ function removeLast() {//remove last question display
 }
 
 function showScore() {//show final display with resultc  score
- 
+
+
+ //score
   var showScor = document.createElement("h2");
   showScor.textContent = "Your score is: "+ score;
   document.getElementById("questionbox").appendChild(showScor);
   showScor.setAttribute("id", "h2Final"); 
   document.getElementById("h2Final").classList.add("mb-4" );
+
+  //label
+  var labelInput = document.createElement("label");
+  labelInput.textContent = "your Name:  ";
+  document.getElementById("questionbox").appendChild(labelInput);
+  labelInput.setAttribute("id", "labelI"); 
+  labelInput.setAttribute("for", "labelI"); 
+  document.getElementById("labelI").classList.add("mb-4", "mr-4" );
+
+  //input text
+  var textInputN = document.createElement("input");
+  document.getElementById("questionbox").appendChild(textInputN);
+  textInputN.setAttribute("id", "textN"); 
+  textInputN.setAttribute("placeholder", "Your name");
+  document.getElementById("textN").classList.add("mb-4" );
+
+  //button submit
+  var btnSub = document.createElement("button");
+  btnSub.textContent = "Submit";
+  document.getElementById("questionbox").appendChild(btnSub);
+   
+  btnSub.setAttribute("id", "btnSubmit");
+  btnSub.setAttribute("type", "button"); 
+  document.getElementById("btnSubmit").classList.add("btn","btn-danger", "btn-sm", "col-sm-2", "mb-4" , "ml-4", "mt-3", "block", "mr-4");
+
+
+
+ var submitButton = document.querySelector("#btnSubmit"); 
+ 
+ submitButton.addEventListener("click", function(event) {
+  event.preventDefault();
+
+  alert("submit");
+ // eventSubmit();
+});
+ 
+
+
   
 }
 
-function createForm(params) {// create textbox for initial name
-  
-}
-
-
-
+ 
 
 /*functions*/
 
@@ -165,9 +200,9 @@ btnanswer = document.querySelectorAll("#questionbox button");
 
           removeLast();
           showScore();
+       
 
-          score=0;
-          
+          score=0;          
           iTemp=0;//for reset question create
 
 
