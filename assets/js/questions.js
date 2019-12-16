@@ -36,7 +36,15 @@ var questions = [
  var answerGood;
  var answerBtn;
  
+//
 
+ 
+function getlocalstotage() {
+  
+  document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
+
+  
+}
 
 
 
@@ -159,15 +167,11 @@ function showScore() {//show final display with resultc  score
     submitButton.addEventListener("click", function(event) {
     event.preventDefault();
 
-       // alert("submit");
-        // eventSubmit();
+ 
+    
+        localStorage.setItem("scoreL",score);
 
-        var scoreLs = score;
-        var f=localStorage.setItem("scoreL",score);
-        console.log(localStorage.getItem("scoreL"));
-
-      //  alert(localStorage.getItem("scoreL")) ;
-        document.querySelector("#textnav").textContent=f;
+        document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
 
         score=0;
 
