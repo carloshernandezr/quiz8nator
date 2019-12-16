@@ -156,17 +156,41 @@ function showScore() {//show final display with resultc  score
 
  var submitButton = document.querySelector("#btnSubmit"); 
  
- submitButton.addEventListener("click", function(event) {
-  event.preventDefault();
+    submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
 
-  alert("submit");
- // eventSubmit();
+       // alert("submit");
+        // eventSubmit();
+
+        var scoreLs = score;
+        var f=localStorage.setItem("scoreL",score);
+        console.log(localStorage.getItem("scoreL"));
+
+      //  alert(localStorage.getItem("scoreL")) ;
+        document.querySelector("#textnav").textContent=f;
+
+        score=0;
+
+        var myh22= document.getElementById("h2Final");
+        myh22.remove();
+
+        var mylabel= document.getElementById("labelI");
+        mylabel.remove();
+
+        var mytext= document.getElementById("textN");
+        mytext.remove();
+
+        var mybt= document.getElementById("btnSubmit");
+        mybt.remove();
+
+
+
 });
  
 
 
   
-}
+}//showscore
 
  
 
@@ -202,7 +226,7 @@ btnanswer = document.querySelectorAll("#questionbox button");
           showScore();
        
 
-          score=0;          
+        //  score=0;          
           iTemp=0;//for reset question create
 
 
