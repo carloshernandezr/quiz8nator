@@ -26,36 +26,47 @@ var questions = [
       answer:"<a href=\"url\" target=\"_blank\">"
     }          
 ];
-
-
  //vars
-var startbutton = document.querySelector("#startbtn");
-var iTemp=0;
-var numQuest=0;//numer of question 
-var btnanswer;
+ var startbutton = document.querySelector("#startbtn");
+ var iTemp=0;
+ var    numQuest=questions.length;//numer of question 
+ var btnanswer;
+ var valuex;
+ var score = 0;
+ var answerGood;
+ var answerBtn;
  
 
+
+
+
  
-startbutton.addEventListener("click", function(event) {
+
+//START the quiz 
+  startbutton.addEventListener("click", function(event) {
   event.preventDefault();
   nextQuestionF();
-});//sstartbuton
+ // showQ();
+ 
+
+});//startbutton
+
+//function for create questions ans answer
 
 
- function nextQuestionF() {    
-    numQuest=questions.length;
+function nextQuestionF() {    
+   // numQuest=questions.length;
     //if-main
     if (iTemp<numQuest) {
-      /*     */
+     
       var titleQ = questions[iTemp].title; 
-
       var questiontext = document.createElement("h2");
       questiontext.textContent = titleQ;
       document.getElementById("questionbox").appendChild(questiontext);
       questiontext.setAttribute("id", "h2question"); 
       document.getElementById("h2question").classList.add("mb-4" );
 
-      //create question and answer 
+      //create next question and answers 
       for (let i = 0; i < questions[iTemp].choices.length; i++) {
 
         var choicesarr = questions[iTemp].choices[i];
@@ -69,50 +80,111 @@ startbutton.addEventListener("click", function(event) {
           
        
       }//for
-        iTemp++;
-        console.log(iTemp);
+     
 
-    }// if main
-
-      /* */   
-      
-      //llamar funcion aqui
-      if (iTemp<numQuest){
-
-        showQ();
-
-      }
-}// nextQuestionF
+      showQ();
 
 
-function showQ() {
   
+         iTemp++;
+    } 
 
-      btnanswer = document.querySelectorAll("#questionbox button"); 
+     
+ 
+}//  nextQuestionF
 
-      Array.prototype.forEach.call(btnanswer, function(el) {
-        el.addEventListener('click', function (event) {
-        //document.getElementById(this).value;
-          alert("g");        
-          deleteQuestion();
-          //iTemp++;          
+ 
+/*functions  */
+
+function answerCheck() {
+  if (answerBtn==answerGood) {
+    alert("Correct")
+    score++;
+    console.log("score:"+score);    
+  }   else {
+
+    alert("Wrong")
+  }
+}
+
+function removeLast() {//remove last question display
+  var myQh2= document.getElementById("h2question");
+  myQh2.remove();
+
+  for (let i = 0; i < questions[iTemp-1].choices.length; i++) {
+    console.log("i:"+i)
+    var myobj = document.getElementById("answer"+i);
+    myobj.remove();
+  }  
+}
+
+function showScore() {//show final display with resultc  score
+ 
+  var showScor = document.createElement("h2");
+  showScor.textContent = "Your score is: "+ score;
+  document.getElementById("questionbox").appendChild(showScor);
+  showScor.setAttribute("id", "h2Final"); 
+  document.getElementById("h2Final").classList.add("mb-4" );
+  
+}
+
+function createForm(params) {// create textbox for initial name
+  
+}
+
+
+
+
+/*functions*/
+
+ 
+
+function showQ() {//this function click addEventListener for each button
+btnanswer = document.querySelectorAll("#questionbox button"); 
+  Array.prototype.forEach.call(btnanswer, function(el) {
+    el.addEventListener('click', function (event) {
+      console.log("itemp: "+iTemp);
+      console.log("numequest "+numQuest);      
+
+      if ((iTemp)<numQuest) {
+
+          answerBtn= this.textContent;
+          answerGood=questions[iTemp-1].answer;
+          
+          answerCheck();
+          deleteQuestion();  
           nextQuestionF();
-        });
-      });
-    }
+
+      } else if (iTemp>=numQuest){
+
+          answerBtn= this.textContent;
+          answerGood=questions[iTemp-1].answer;
+
+          answerCheck();
+          alert("fin del juego");
+
+          removeLast();
+          showScore();
+
+          score=0;
+          
+          iTemp=0;//for reset question create
 
 
-      function deleteQuestion() {
+      } 
+    });
+  });
+};
 
-        var myQh2= document.getElementById("h2question");
-        myQh2.remove();
-
-        for (let i = 0; i < questions[iTemp].choices.length; i++) {
-          var myobj = document.getElementById("answer"+i);
-          myobj.remove();
-        }
-
-      }
+ 
+function deleteQuestion() {//this function delete  questions
+  var myQh2= document.getElementById("h2question");
+  myQh2.remove();
+  for (let i = 0; i < questions[iTemp].choices.length; i++) {
+    var myobj = document.getElementById("answer"+i);
+    myobj.remove();
+  }
+}//deleQuestion
 
 
 
