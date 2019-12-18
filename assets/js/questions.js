@@ -29,22 +29,19 @@ var questions = [
  //vars
  var startbutton = document.querySelector("#startbtn");
  var iTemp=0;
- var    numQuest=questions.length;//numer of question 
+ var numQuest=questions.length;//numer of question 
  var btnanswer;
  var valuex;
  var score = 0;
  var answerGood;
  var answerBtn;
+ var timeEl = document.querySelector("#ptime"); 
+ var secondsLeft;
+ var btnLastClick;
  
 //
 
  
-function getlocalstotage() {
-  
-  document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
-
-  
-}
 
 
 
@@ -53,11 +50,12 @@ function getlocalstotage() {
 //START the quiz 
   startbutton.addEventListener("click", function(event) {
   event.preventDefault();
+  secondsLeft = (questions.length)*15;
+  setTime();
   nextQuestionF();
  // showQ();
- 
-
 });//startbutton
+
 
 //function for create questions ans answer
 
@@ -85,21 +83,13 @@ function nextQuestionF() {
         answertext.setAttribute("id", idanswer);
         answertext.setAttribute("type", "button"); 
         document.getElementById(idanswer).classList.add("btn","btn-primary", "btn-lg", "col-md-12", "mb-4" );
-          
-       
-      }//for
-     
+               
+      }//for  
 
-      showQ();
-
-
-  
-         iTemp++;
+      showQ();  
+      iTemp++;
     } 
-
-     
- 
-}//  nextQuestionF
+  }//  nextQuestionF
 
  
 /*functions  */
@@ -111,7 +101,11 @@ function answerCheck() {
     console.log("score:"+score);    
   }   else {
 
-    alert("Wrong")
+    alert("Wrong");
+    secondsLeft=secondsLeft-15;//time remaining
+    count15=0;
+     
+
   }
 }
 
@@ -124,7 +118,10 @@ function removeLast() {//remove last question display
     var myobj = document.getElementById("answer"+i);
     myobj.remove();
   }  
+  //secondsLeft=0;
 }
+
+
 
 function showScore() {//show final display with resultc  score
 
@@ -164,47 +161,144 @@ function showScore() {//show final display with resultc  score
 
  var submitButton = document.querySelector("#btnSubmit"); 
  
-    submitButton.addEventListener("click", function(event) {
-    event.preventDefault();
-
+    //document.addEventListener('DOMContentLoaded', function () {
  
+      submitButton.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          var   x = document.getElementById("textN").value;
     
-        localStorage.setItem("scoreL",score);
+            localStorage.setItem("scoreL",(x+": "+ score));
 
-        document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
+            document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
 
-        score=0;
+            score=0;
 
-        var myh22= document.getElementById("h2Final");
-        myh22.remove();
+            //other
 
-        var mylabel= document.getElementById("labelI");
-        mylabel.remove();
+            // var nameInputt=document.getElementById("#textN").value;
+            // console.log(nameInputt);
 
-        var mytext= document.getElementById("textN");
-        mytext.remove();
+            // localStorage.setItem("scoreName",nameInputt);
 
-        var mybt= document.getElementById("btnSubmit");
-        mybt.remove();
+            // document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
 
-
-
-});
  
 
+ 
+          
 
+              var myh22= document.getElementById("h2Final");
+              myh22.remove();
+
+              var mylabel= document.getElementById("labelI");
+              mylabel.remove();
+
+              var mytext= document.getElementById("textN");
+              mytext.remove();
+
+              var mybt= document.getElementById("btnSubmit");
+              mybt.remove();
+              timeEl.textContent = " ";
+              btnLastClick=false;
+
+
+      });
+
+ //   });
+    
   
-}//showscore
+  };//showscore
 
  
 
 /*functions*/
+
+function getlocalstotage() {  
+  document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
+}
+
+
+var count15=0;
+
+
+ 
+
+function setTime() {
+
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timeEl.textContent = "Remaining Time: " + secondsLeft ;
+    count15=count15+1;
+    console.log(count15);
+
+
+
+    function LastQTimeOver(params) {
+      count15=0;
+      alert("Time Out - End Game");      
+      clearInterval(timerInterval);
+      timeEl.textContent = "Time Out ";      
+      removeLast();       
+      showScore();
+      iTemp=0;//for reset question create      
+    }
+   
+
+    if (secondsLeft == 0|| secondsLeft <  0) {
+      
+      if (btnLastClick==false) {
+         LastQTimeOver();  
+      }  
+      
+       clearInterval(timerInterval);  
+       count15=0;
+       timeEl.textContent = "Time Out ";   
+
+    }
+
+    
+    if(count15 == 15) {
+
+      count15=0;
+      timeEl.textContent = "Time Out ";
+      //hacer funcion
+
+      if ((iTemp)<numQuest) {
+
+     
+        secondsLeft=secondsLeft-15;//time remaining
+        count15=0;
+        
+        deleteQuestion();  
+        nextQuestionF();
+        alert("No choice select in the current time");
+
+    } else if (iTemp>=numQuest){
+
+      LastQTimeOver();
+
+
+    } 
+
+      //sendMessage();
+    }
+
+  }, 1000);
+
+  
+
+
+}
+
 
  
 
 function showQ() {//this function click addEventListener for each button
 btnanswer = document.querySelectorAll("#questionbox button"); 
   Array.prototype.forEach.call(btnanswer, function(el) {
+    
+    
     el.addEventListener('click', function (event) {
       console.log("itemp: "+iTemp);
       console.log("numequest "+numQuest);      
@@ -224,13 +318,23 @@ btnanswer = document.querySelectorAll("#questionbox button");
           answerGood=questions[iTemp-1].answer;
 
           answerCheck();
-          alert("fin del juego");
+
+         // alert("fin del juego");
+         alert("Time Out -- End Game"); 
+
+         
 
           removeLast();
+
+
           showScore();
+
+          btnLastClick=true;
+          secondsLeft=0;
        
 
-        //  score=0;          
+        //  score=0;   
+        count15=0;       
           iTemp=0;//for reset question create
 
 
