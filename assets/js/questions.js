@@ -53,6 +53,8 @@ var questions = [
   secondsLeft = (questions.length)*15;
   setTime();
   nextQuestionF();
+  btnLastClick==false;
+  document.getElementById("startbtn").style.visibility = 'hidden';
  // showQ();
 });//startbutton
 
@@ -174,17 +176,7 @@ function showScore() {//show final display with resultc  score
 
             score=0;
 
-            //other
-
-            // var nameInputt=document.getElementById("#textN").value;
-            // console.log(nameInputt);
-
-            // localStorage.setItem("scoreName",nameInputt);
-
-            // document.querySelector("#textnav").textContent="Last Score: "+localStorage.getItem("scoreL") ;
-
- 
-
+    
  
           
 
@@ -201,6 +193,7 @@ function showScore() {//show final display with resultc  score
               mybt.remove();
               timeEl.textContent = " ";
               btnLastClick=false;
+              document.getElementById("startbtn").style.visibility = 'visible';
 
 
       });
@@ -245,44 +238,55 @@ function setTime() {
     }
    
 
-    if (secondsLeft == 0|| secondsLeft <  0) {
-      
-      if (btnLastClick==false) {
-         LastQTimeOver();  
-      }  
-      
-       clearInterval(timerInterval);  
-       count15=0;
-       timeEl.textContent = "Time Out ";   
 
-    }
 
     
     if(count15 == 15) {
 
       count15=0;
       timeEl.textContent = "Time Out ";
-      //hacer funcion
+       
 
       if ((iTemp)<numQuest) {
 
      
         secondsLeft=secondsLeft-15;//time remaining
-        count15=0;
+       // count15=0;
         
         deleteQuestion();  
         nextQuestionF();
         alert("No choice select in the current time");
+       // LastQTimeOver();  
+
 
     } else if (iTemp>=numQuest){
-
+      secondsLeft=secondsLeft-15;
       LastQTimeOver();
+      
 
 
     } 
 
       //sendMessage();
     }
+
+
+    if (secondsLeft <= 0) {
+      console.log(btnLastClick);
+      
+      if (btnLastClick!=true) {
+         LastQTimeOver();  
+      }  
+      
+       clearInterval(timerInterval);  
+       count15=0;
+       timeEl.textContent = "Time Out .";   
+ 
+
+
+    }
+
+
 
   }, 1000);
 
